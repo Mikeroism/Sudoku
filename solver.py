@@ -60,7 +60,7 @@ def valid(bor, num, pos):
 def printBoard(bor):
     for i in range(len(bor)):
         if i % 3 == 0 and i != 0:
-            print("- - - - - - - - - - - - - ")
+            print("- - - - - - - - - ")
 
         for j in range(len(bor[0])):
             if j % 3 == 0 and j != 0:
@@ -82,5 +82,5 @@ def findEmpty(bor):
 
 printBoard(board)
 solve(board)
-print("___________________")
+print("_______________")
 printBoard(board)

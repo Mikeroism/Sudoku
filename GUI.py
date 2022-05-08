@@ -29,27 +29,26 @@ class Grid:
         self.model = None
         self.selected = None
 
-    def updateModel(self):
-        self.model = [[self.cubes[i][j].value for j in range(self.cols)] for i in range(self.rows)]
-
-
     def place(self, val):
         row, col = self.selected
         if self.cubes[row][col].value == 0:
             self.cubes[row][col].set(val)
-            self.updateModel()
+            self.modelUpdater()
 
             if valid(self.model, val, (row, col)) and solve(self.model):
                 return True
             else:
                 self.cubes[row][col].set(0)
                 self.cubes[row][col].setTemp(0)
-                self.updateModel()
+                self.modelUpdater()
                 return False
 
     def sketch(self, val):
         row, col = self.selected
         self.cubes[row][col].setTemp(val)
+
+    def modelUpdater(self):
+        self.model = [[self.cubes[i][j].value for j in range(self.cols)] for i in range(self.rows)]
 
 
     def draw(self, win):
@@ -140,14 +139,14 @@ class Cube:
 def redrawWindow(win, board, time, strikes):
     win.fill((255,255,255))
     fnt = pygame.font.SysFont("comicsans", 20)
-    text = fnt.render("Time: " + formatTime(time), 1, (0, 0, 0))
+    text = fnt.render("Time: " + timeFormatter(time), 1, (0, 0, 0))
     win.blit(text, (540 - 160, 560))
     text = fnt.render("X " * strikes, 1, (255, 0, 0))
     win.blit(text, (20, 560))
     board.draw(win)
 
 
-def formatTime(secs):
+def timeFormatter(secs):
     sec = secs % 60
     minute = secs//60
     hour = minute//60
